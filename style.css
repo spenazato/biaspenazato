@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100dvh; /* altura dinâmica, cobre tela inteira no mobile */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,8 +10,9 @@ body {
   color: white;
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden; /* evita rolagem lateral */
 }
+
 
 h1 {
   font-size: 3.5em;
