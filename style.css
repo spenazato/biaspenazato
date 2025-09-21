@@ -1,29 +1,24 @@
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #1a001f, #3d0066, #5a189a, #1a001f);
   background-size: 400% 400%;
   animation: gradientFlow 20s ease infinite;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden;
-  touch-action: none;
   color: white;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
   position: relative;
-  box-sizing: border-box;
 }
 
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-.title {
-  margin-top: 40px;
 }
 
 .title-text {
@@ -34,8 +29,8 @@ body {
 }
 
 h1 {
-  font-family: 'Great Vibes', cursive;
   font-size: 2.8em;
+  font-family: 'Great Vibes', cursive;
   color: #d0a2f7;
   text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
   margin: 0;
@@ -72,56 +67,28 @@ h1 {
   100% { transform: scale(1); text-shadow: 0 0 10px #9d4edd, 0 0 20px #7b2cbf; }
 }
 
-.flipbook-container {
-  width: 90%;
-  max-width: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 30px 0 50px 0;
-}
-
-.flipbook {
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  min-height: 200px;
-}
-
-.page {
+.text-container {
   background: rgba(0,0,0,0.3);
+  padding: 25px;
   border-radius: 15px;
-  padding: 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  max-width: 800px;
+  margin: 30px auto;
 }
 
-.page.active {
+.text-container p {
   opacity: 1;
-}
-
-.page p {
-  line-height: 1.8;
-  font-size: 1.2em;
+  line-height: 2;
+  font-size: 1.3em;
   color: #f0e6ff;
   text-align: left;
   margin: 0;
   text-indent: 2em;
-  word-wrap: break-word;
 }
 
 .word {
   display: inline;
   opacity: 0;
-  animation: fadeWord 0.05s forwards;
+  animation: fadeWord 0.7s forwards;
 }
 
 @keyframes fadeWord {
@@ -129,59 +96,47 @@ h1 {
   to { opacity: 1; }
 }
 
-.photo-container {
-  margin: 30px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  width: 300px;
-  height: 300px;
-}
 
-.photo-placeholder {
-  font-size: 5rem;
-  transition: transform 0.5s;
-}
-
-.photo-container:hover .photo-placeholder {
-  transform: scale(1.2);
-}
-
-.hidden-photo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.hidden-photo.show {
-  opacity: 1;
-}
 
 .floating-heart {
-  position: fixed;
+  position: absolute;
+  bottom: 0;
   font-size: 1.5rem;
+  animation: floatUp 4s linear forwards;
   pointer-events: none;
-  z-index: 10;
 }
 
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+
+.sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; transform: scale(0.5); }
+  to { opacity: 0.8; transform: scale(1.2); }
+}
 
 @media (max-width: 820px) {
   h1 { font-size: 2.5em; }
   .heart { font-size: 2em; }
-  .page p { font-size: 1.1em; line-height: 1.6; }
+  .text-container { width: 90%; padding: 15px; }
+  .text-container p { font-size: 1.1em; line-height: 1.6; }
 }
 
 @media (max-width: 480px) {
-  .flipbook-container { width: 95%; margin: 20px 0; }
-  .page p { font-size: 1em; line-height: 1.4; }
   h1 { font-size: 2em; }
   .heart { font-size: 1.5em; }
+  .text-container { padding: 10px; }
+  .text-container p { font-size: 1em; line-height: 1.4; }
 }
