@@ -1,22 +1,18 @@
 body {
   margin: 0;
-  padding-top: env(safe-area-inset-top);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
+  padding: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, #1a001f, #3d0066, #5a189a, #1a001f);
-  background-size: 400% 400%;
-  animation: gradientFlow 20s ease infinite;
+  background-color: #3d0066; /* Static color similar to your gradient */
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
   touch-action: none;
   color: white;
   box-sizing: border-box;
 }
+
 
 
 @keyframes gradientFlow {
