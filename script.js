@@ -57,40 +57,40 @@ document.addEventListener("DOMContentLoaded", () => {
     pages[current].classList.add("active");
   });
 
-  // carousel
-  const track = document.querySelector(".carousel-track");
-  const slides = Array.from(track.children);
-  let currentIndex = 0;
-  let autoSlide = setInterval(nextSlide, 5000);
+const track = document.querySelector(".carousel-track");
+const slides = Array.from(track.children);
+let currentIndex = 0;
+let autoSlide = setInterval(nextSlide, 5000);
 
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % slides.length;
-    updateSlide();
+function nextSlide() {
+  slides[currentIndex].classList.remove("active");
+  currentIndex = (currentIndex + 1) % slides.length;
+  slides[currentIndex].classList.add("active");
+}
+
+function prevSlide() {
+  slides[currentIndex].classList.remove("active");
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  slides[currentIndex].classList.add("active");
+}
+
+// init first slide
+slides[0].classList.add("active");
+
+// swipe detection
+let startX = 0;
+track.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+  clearInterval(autoSlide);
+});
+track.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) {
+    nextSlide();
+  } else if (endX - startX > 50) {
+    prevSlide();
   }
+  autoSlide = setInterval(nextSlide, 5000);
+});
 
-  function prevSlide() {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    updateSlide();
-  }
-
-  function updateSlide() {
-    const slideWidth = slides[0].getBoundingClientRect().width;
-    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-  }
-
-  // swipe detection
-  let startX = 0;
-  track.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-    clearInterval(autoSlide);
-  });
-  track.addEventListener("touchend", e => {
-    let endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50) {
-      nextSlide();
-    } else if (endX - startX > 50) {
-      prevSlide();
-    }
-    autoSlide = setInterval(nextSlide, 5000);
-  });
 });
