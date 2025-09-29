@@ -1,36 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
-setInterval(() => {
-  const heart = document.createElement("span");
-  heart.innerHTML = "💜";
-  heart.classList.add("floating-heart");
+  // floating hearts
+  setInterval(() => {
+    const heart = document.createElement("span");
+    heart.innerHTML = "💜";
+    heart.classList.add("floating-heart");
 
-  const size = 1 + Math.random() * 0.8;
-  heart.style.fontSize = `${size}rem`;
+    const size = 1 + Math.random() * 0.8;
+    heart.style.fontSize = `${size}rem`;
 
-  heart.style.left = Math.random() * 90 + "vw";
-  heart.style.top = window.innerHeight + "px"; // start just below viewport
+    heart.style.left = Math.random() * 90 + "vw";
+    heart.style.top = window.innerHeight + "px";
 
-  body.appendChild(heart);
+    body.appendChild(heart);
 
-  const floatDuration = 4000 + Math.random() * 2000;
-  heart.animate(
-    [
-      { transform: "translateY(0)", opacity: 1 },
-      { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
-    ],
-    {
-      duration: floatDuration,
-      easing: "linear",
-      fill: "forwards"
-    }
-  );
+    const floatDuration = 4000 + Math.random() * 2000;
+    heart.animate(
+      [
+        { transform: "translateY(0)", opacity: 1 },
+        { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
+      ],
+      {
+        duration: floatDuration,
+        easing: "linear",
+        fill: "forwards"
+      }
+    );
 
-  setTimeout(() => heart.remove(), floatDuration);
-}, 800);
+    setTimeout(() => heart.remove(), floatDuration);
+  }, 800);
 
-
+  // typing words
   const paragraphs = document.querySelectorAll(".page p");
   let wordDelay = 0;
   paragraphs.forEach(p => {
@@ -46,6 +47,7 @@ setInterval(() => {
     });
   });
 
+  // flipbook
   const pages = document.querySelectorAll(".page");
   let current = 0;
   const flipbook = document.querySelector(".flipbook");
@@ -55,16 +57,40 @@ setInterval(() => {
     pages[current].classList.add("active");
   });
 
-  const photoContainer = document.querySelector(".photo-container");
-  const photo = document.querySelector(".hidden-photo");
-  const placeholder = document.querySelector(".photo-placeholder");
+  // carousel
+  const track = document.querySelector(".carousel-track");
+  const slides = Array.from(track.children);
+  let currentIndex = 0;
+  let autoSlide = setInterval(nextSlide, 5000);
 
-  photoContainer.addEventListener("click", () => {
-    placeholder.style.display = "none";
-    photo.classList.add("show");
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateSlide();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    updateSlide();
+  }
+
+  function updateSlide() {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  }
+
+  // swipe detection
+  let startX = 0;
+  track.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    clearInterval(autoSlide);
   });
-
-  window.addEventListener('touchmove', function(e){
-    e.preventDefault();
-  }, { passive: false });
+  track.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) {
+      nextSlide();
+    } else if (endX - startX > 50) {
+      prevSlide();
+    }
+    autoSlide = setInterval(nextSlide, 5000);
+  });
 });
