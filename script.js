@@ -49,12 +49,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // flipbook
   const pages = document.querySelectorAll(".page");
-  let current = 0;
   const flipbook = document.querySelector(".flipbook");
-  flipbook.addEventListener("click", () => {
+  const currentPageSpan = document.getElementById("current-page");
+  const totalPageSpan = document.getElementById("total-pages");
+
+  let current = 0;
+  const totalPages = pages.length
+
+  if (totalPageSpan) {
+    totalPageSpan.textContent = totalPages
+  }
+
+  function updatePage(newPage) {
     pages[current].classList.remove("active");
-    current = (current + 1) % pages.length;
+    current = newPage;
     pages[current].classList.add("active");
+
+    if (currentPageSpan) {
+      currentPageSpan.textContent = current + 1;
+    }
+  }
+
+  flipbook.addEventListener("click", (e) => {
+    const rect = flipbook.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const halfWidth = flipbook.clientWidth / 2;
+
+    if (clickX < halfWidth) {
+      let prevPage = (current - 1 + totalPages) % totalPages;
+      updatePage(prevPage);
+    } else {
+      let nextPage = (current + 1) % totalPages;
+      updatePage(nextPage);
+    }
   });
 
 const track = document.querySelector(".carousel-track");
