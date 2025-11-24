@@ -1,3 +1,29 @@
+:root {
+  /* --- Default (Dark/Purple) Theme Variables --- */
+  --bg-color: #3d0066;
+  --text-main: white;
+  --text-secondary: #f0e6ff;
+  --title-color: #d0a2f7;
+  --heart-color: #9d4edd;
+  --page-bg: rgba(0,0,0,0.3);
+  --music-bg: rgba(0, 0, 0, 0.3);
+  --music-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0,0,0,0.3);
+}
+
+/* --- Light Mode Variables --- */
+body.light-mode {
+  --bg-color: #ffe6f2; /* Soft romantic pink */
+  --text-main: #4a0072; /* Deep purple text for readability */
+  --text-secondary: #7b1fa2;
+  --title-color: #d500f9;
+  --heart-color: #ff4081;
+  --page-bg: rgba(255, 255, 255, 0.6); /* White frosty glass */
+  --music-bg: rgba(255, 255, 255, 0.4);
+  --music-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: rgba(0,0,0,0.1);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -5,12 +31,34 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #3d0066;
+  background-color: var(--bg-color); /* Updated */
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
-  touch-action: pan-y; /* Allow vertical scroll but handle horizontal in JS if needed */
-  color: white;
+  touch-action: pan-y;
+  color: var(--text-main); /* Updated */
   box-sizing: border-box;
+  transition: background-color 0.5s ease, color 0.5s ease; /* Smooth toggle transition */
+}
+
+/* Theme Toggle Button Style */
+.theme-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 10px;
+  border-radius: 50%;
+  z-index: 1000;
+  transition: transform 0.3s ease, background 0.3s;
+  backdrop-filter: blur(5px);
+}
+
+.theme-btn:hover {
+  transform: scale(1.1) rotate(15deg);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .title {
@@ -27,8 +75,8 @@ body {
 h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 2.8em;
-  color: #d0a2f7;
-  text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+  color: var(--title-color); /* Updated */
+  text-shadow: 2px 2px 15px rgba(0,0,0,0.1);
   margin: 0;
   opacity: 0;
   animation: fadeScale 2.5s ease forwards;
@@ -43,13 +91,12 @@ h1 {
   font-size: 1.5em;
   transform: scale(0);
   animation: appearPulse 1.5s ease forwards, pulse 1.5s infinite 1.5s;
-  text-shadow: 0 0 10px #9d4edd, 0 0 20px #7b2cbf;
+  text-shadow: 0 0 10px var(--heart-color), 0 0 20px var(--heart-color);
   cursor: pointer;
 }
 
 .heart:hover {
   transform: scale(1.4);
-  text-shadow: 0 0 25px #ba55d3, 0 0 50px #9d4edd;
 }
 
 @keyframes appearPulse {
@@ -58,9 +105,9 @@ h1 {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); text-shadow: 0 0 10px #9d4edd, 0 0 20px #7b2cbf; }
-  50% { transform: scale(1.3); text-shadow: 0 0 20px #ba55d3, 0 0 40px #9d4edd; }
-  100% { transform: scale(1); text-shadow: 0 0 10px #9d4edd, 0 0 20px #7b2cbf; }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
 
 /* --- Flipbook (Text) --- */
@@ -84,7 +131,7 @@ h1 {
 }
 
 .page {
-  background: rgba(0,0,0,0.3);
+  background: var(--page-bg); /* Updated */
   border-radius: 15px;
   padding: 20px;
   position: absolute;
@@ -93,8 +140,8 @@ h1 {
   width: 100%;
   box-sizing: border-box;
   opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none; /* Prevent clicks on hidden pages */
+  transition: opacity 0.5s ease, background 0.5s ease;
+  pointer-events: none;
 }
 
 .page.active {
@@ -105,7 +152,7 @@ h1 {
 .page p {
   line-height: 1.8;
   font-size: 1.2em;
-  color: #f0e6ff;
+  color: var(--text-secondary); /* Updated */
   text-align: left;
   margin: 0;
   text-indent: 2em;
@@ -124,24 +171,24 @@ h1 {
 }
 
 .page-counter {
-  color: #f0e6ff;
+  color: var(--text-secondary); /* Updated */
   font-size: 1em;
   margin-top: 15px;
   opacity: 0.8;
   font-family: 'Poppins', sans-serif;
 }
 
-/* --- NEW CAROUSEL STYLES --- */
+/* --- CAROUSEL STYLES --- */
 .carousel-container {
   position: relative;
   width: 100%;
   max-width: 800px;
-  height: 450px; /* Adjust based on photo size */
+  height: 450px; 
   margin: 20px auto 50px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Hide elements flying in */
+  overflow: hidden; 
   perspective: 1000px;
 }
 
@@ -161,7 +208,6 @@ h1 {
   transition: all 0.6s ease-in-out;
   cursor: pointer;
   z-index: 1;
-  /* Default hidden state logic usually handled by JS classes */
   opacity: 0; 
   pointer-events: none;
 }
@@ -173,9 +219,9 @@ h1 {
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-  background-color: white;
-  padding: 15px 15px 50px 15px; /* Polaroid bottom spacing */
+  box-shadow: 0 10px 20px var(--glass-shadow); /* Updated */
+  background-color: white; /* Keep Polaroids white */
+  padding: 15px 15px 50px 15px;
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -184,26 +230,17 @@ h1 {
   transform: rotateY(180deg);
 }
 
-/* Find this section in your CSS and update it */
-
 .front, .back {
   position: absolute;
-  
-  /* Fix: explicitly position it inside the padding "frame" */
   top: 15px;
   left: 15px;
-  
-  /* Keep these calculations, they are correct for the padding sizes */
-  /* Width = 100% - (15px left + 15px right) */
   width: calc(100% - 30px);
-  /* Height = 100% - (15px top + 50px bottom) */
   height: calc(100% - 65px);
-  
   backface-visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000; /* Optional: adds a black bg behind photo just in case */
+  background-color: #000;
 }
 
 .front img {
@@ -232,8 +269,6 @@ h1 {
 }
 
 /* --- Positioning States --- */
-
-/* Active (Center) */
 .polaroid-wrapper.active {
   opacity: 1;
   z-index: 10;
@@ -242,16 +277,14 @@ h1 {
   pointer-events: auto;
 }
 
-/* Previous (Left, darker, behind) */
 .polaroid-wrapper.prev {
   opacity: 1;
   z-index: 5;
   transform: translateX(-140px) scale(0.85) rotate(-4deg);
   filter: brightness(0.6);
-  pointer-events: auto; /* Allow clicking to switch? User said arrows, but usually nice */
+  pointer-events: auto;
 }
 
-/* Next (Right, darker, behind) */
 .polaroid-wrapper.next {
   opacity: 1;
   z-index: 5;
@@ -260,7 +293,6 @@ h1 {
   pointer-events: auto;
 }
 
-/* Hidden (Behind stack) */
 .polaroid-wrapper.hidden {
   opacity: 0;
   z-index: 0;
@@ -274,7 +306,7 @@ h1 {
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
+  color: white; /* Arrow always white for contrast against dark prev/next slides */
   font-size: 2rem;
   padding: 10px 15px;
   cursor: pointer;
@@ -290,45 +322,23 @@ h1 {
 .prev { left: 10px; }
 .next { right: 10px; }
 
-/* --- Entry Animations (On Load) --- */
-
-/* Animation class for Active Item */
+/* --- Entry Animations --- */
 .animate-spin-in {
   animation: spinIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Animation class for Side Items */
 .animate-float-in {
   animation: floatIn 1.5s ease-out forwards;
 }
 
 @keyframes spinIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-500px) rotate(720deg) scale(0.1);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg) scale(1);
-  }
+  0% { opacity: 0; transform: translateY(-500px) rotate(720deg) scale(0.1); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
 }
 
 @keyframes floatIn {
-  0% {
-    opacity: 0;
-    transform: translateY(100px) scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    /* Transform final state is handled by the .prev/.next classes, 
-       but we keyframe to essentially 'fade into' that position logic 
-       or we just animate opacity and allow the class transform to hold.
-       Ideally, we just animate opacity and a slight Y shift. 
-    */
-    /* Note: Since transform is controlled by class state (prev/next), 
-       adding transform here might conflict. 
-       Strategy: Use simple fade-slide for sides. */
-  }
+  0% { opacity: 0; transform: translateY(100px) scale(0.8); }
+  100% { opacity: 1; }
 }
 
 .music-container {
@@ -337,27 +347,26 @@ h1 {
   margin: 0 auto 50px auto;
   z-index: 10;
   position: relative;
-  /* Glassmorphism style */
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--music-bg); /* Updated */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px var(--glass-shadow); /* Updated */
   padding: 15px 20px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--music-border); /* Updated */
+  transition: background 0.5s ease;
 }
 
 .music-info span {
   display: block;
   font-family: 'Poppins', sans-serif;
   font-size: 1.1em;
-  color: #f0e6ff;
+  color: var(--text-secondary); /* Updated */
   margin-bottom: 10px;
   letter-spacing: 1px;
 }
 
-/* Customizing the audio tag size */
 audio {
   width: 100%;
   height: 40px;
@@ -365,30 +374,17 @@ audio {
   outline: none;
 }
 
-/* --- Mobile Adjustments --- */
 @media (max-width: 600px) {
-  .carousel-container {
-    height: 350px;
-  }
-  .polaroid-wrapper {
-    width: 220px;
-    height: 280px;
-  }
-  .polaroid-card {
-    padding: 10px 10px 40px 10px;
-  }
-  
-  .polaroid-wrapper.prev {
-    transform: translateX(-70px) scale(0.8) rotate(-3deg);
-  }
-  .polaroid-wrapper.next {
-    transform: translateX(70px) scale(0.8) rotate(3deg);
-  }
+  .carousel-container { height: 350px; }
+  .polaroid-wrapper { width: 220px; height: 280px; }
+  .polaroid-card { padding: 10px 10px 40px 10px; }
+  .polaroid-wrapper.prev { transform: translateX(-70px) scale(0.8) rotate(-3deg); }
+  .polaroid-wrapper.next { transform: translateX(70px) scale(0.8) rotate(3deg); }
 }
 
 .floating-heart {
   position: fixed;
   font-size: 1.5rem;
   pointer-events: none;
-  z-index: 100; /* Above everything */
+  z-index: 100;
 }

@@ -1,6 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
+  // --- THEME TOGGLE LOGIC ---
+  const themeBtn = document.getElementById("theme-toggle");
+  themeBtn.addEventListener("click", () => {
+    body.classList.toggle("light-mode");
+    
+    // Change Icon
+    if (body.classList.contains("light-mode")) {
+      themeBtn.textContent = "🌙"; // Moon for light mode (switch to dark)
+    } else {
+      themeBtn.textContent = "☀️"; // Sun for dark mode (switch to light)
+    }
+  });
+
   const audio = document.getElementById("background-music");
   if (audio) {
     audio.volume = 0.25; // 0.0 to 1.0 (0.25 = 25%)
